@@ -7,6 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
+<!-- 오그인시 오류 메시지 출력 -->
+${error ? exception : ''}
 <form action="/hello/login" method="post">
 	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 	아이디 : <input type="text" name="email"/><br/>

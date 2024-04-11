@@ -33,15 +33,12 @@ public class MemberService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		try {
-			log.info("username = {}", username);
-			MemberVO resultVO = memberMapper.login(MemberVO.builder().member_id(username).build());
-		
-			return resultVO;  
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
+		log.info("username = {}", username);
+		MemberVO resultVO = memberMapper.login(MemberVO.builder().member_id(username).build());
+		if (resultVO == null) {
+			throw new UsernameNotFoundException(username + " 사용자가 존재하지 않습니다");
 		}
+		return resultVO;
 	}
 }
 

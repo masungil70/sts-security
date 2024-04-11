@@ -10,9 +10,9 @@
 <h1>
 	Hello world!  
 </h1>
-<a href="/hello/loginForm">로그인양식</a>
+<a href="/hello/login/loginForm">로그인양식</a>
+<a href="/hello/login/logout">로그아웃</a>
 <a href="/hello/board/list">게시물 목록</a>
 
-<P>  The time on the server is ${serverTime}. </P>
 </body>
 </html>
