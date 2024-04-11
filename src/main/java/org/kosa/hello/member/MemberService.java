@@ -2,6 +2,7 @@ package org.kosa.hello.member;
 
 import org.kosa.hello.entity.BoardVO;
 import org.kosa.hello.entity.MemberVO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,19 +20,10 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Service
 @Slf4j
-@RequiredArgsConstructor
 public class MemberService implements UserDetailsService {
       
-	private final MemberMapper  memberMapper;
-
-//	public MemberVO login(MemberVO memberVO)  {
-//		//view Count의 값이 증가된 객체를 얻는다
-//		MemberVO resultVO = memberMapper.login(memberVO);
-//		if (resultVO != null && memberVO.isEqualsPwd(resultVO.getMember_pwd())) {
-//			return resultVO;
-//		}
-//		return null;
-//	}
+	@Autowired
+	private MemberMapper  memberMapper;
 
 	public static void main(String [] args) {
 		BCryptPasswordEncoder bcryptPasswordEncoder = new BCryptPasswordEncoder();
@@ -41,9 +33,15 @@ public class MemberService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		MemberVO resultVO = memberMapper.login(MemberVO.builder().member_id(username).build());
+		try {
+			log.info("username = {}", username);
+			MemberVO resultVO = memberMapper.login(MemberVO.builder().member_id(username).build());
 		
-		return null;
+			return resultVO;  
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 }
 
