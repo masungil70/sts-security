@@ -31,7 +31,7 @@
             authentication-failure-handler-ref="authFailureHandler"
             authentication-success-handler-ref="authSucessHandler"
              />
-    </http>
+	</http>
 
     <authentication-manager>
  		<authentication-provider user-service-ref="customUserDetailsService">
