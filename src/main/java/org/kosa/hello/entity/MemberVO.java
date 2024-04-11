@@ -1,9 +1,12 @@
 package org.kosa.hello.entity;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.AllArgsConstructor;
@@ -23,6 +26,11 @@ public class MemberVO implements UserDetails {
 	private String member_address;
 	private String member_phone_number;
 	private String member_gender;
+	private String member_roles;
+	private String member_account_expired; 
+	private String member_account_locked;
+	private int    member_login_count;
+	private LocalDateTime member_last_login_time;
 	
 	public boolean isEqualsPwd(String pwd) {
 		return this.member_pwd.equals(pwd);		
@@ -31,7 +39,9 @@ public class MemberVO implements UserDetails {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Collection<GrantedAuthority> collections = new ArrayList<GrantedAuthority>();
-		collections.add(() -> "ROLE_USER");
+		
+		Arrays.stream(member_roles.split(",")).forEach(role -> collections.add(new SimpleGrantedAuthority("ROLE_" + role.trim())));
+		
 		return collections;
 	}
 
@@ -47,12 +57,12 @@ public class MemberVO implements UserDetails {
 
 	@Override
 	public boolean isAccountNonExpired() {
-		return true;
+		return "N".equalsIgnoreCase(member_account_expired);
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		return true;
+		return "N".equalsIgnoreCase(member_account_locked);
 	}
 
 	@Override
