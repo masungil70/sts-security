@@ -6,6 +6,7 @@ import org.kosa.hello.entity.MemberVO;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.bind.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,11 +31,10 @@ public class BoardController {
 	}
 	
 	@GetMapping("/list2")
-	public void list2(Principal principal) {
+	public void list2(@AuthenticationPrincipal MemberVO memberVO) {
 		//spring security로 로그인 객체를 얻는다 
 		//인증 후 로그인 객체를 가져오는 방법
 		//2. Controller에서 Principal 객체를 가져오는 방법
-		MemberVO memberVO = (MemberVO) principal;
 		log.info("board.list2() 함수 호출 ");
 		log.info("memberVO  = {}", memberVO);
 	}
