@@ -11,15 +11,17 @@
     <beans:bean id="customUserDetailsService" class="org.kosa.hello.member.MemberService" />
     <beans:bean id="authFailureHandler" class="org.kosa.hello.member.AuthFailureHandler" />
     <beans:bean id="authSucessHandler" class="org.kosa.hello.member.AuthSucessHandler" />
+    <beans:bean id="csrfTokenRepository" class="org.springframework.security.web.csrf.CookieCsrfTokenRepository" />
     
     
     <http pattern="/" security="none"></http>
-    <http pattern="/login/loginForm" security="none"></http>
     <http pattern="/resources/**" security="none"></http>
     
     
     <http auto-config="true" >
-    	<csrf disabled="true"/>
+    	<csrf token-repository-ref="csrfTokenRepository"/>
+        <intercept-url pattern="/" access="permitAll()"/>
+        <intercept-url pattern="/login/loginForm" access="permitAll()"/>
         <intercept-url pattern="/*/**" access="isAuthenticated()"/>
         <!-- login-page="/login"  -> get방식으로 호출되는 URL -->
         <!-- login-processing-url="/login" -> post방식으로 호출되는 URL -->
